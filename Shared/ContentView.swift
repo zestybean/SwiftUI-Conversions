@@ -15,10 +15,7 @@ struct ContentView: View {
     
     var conversionResult = 0.0
     
-    let conversionOptions = ["Length", "Temp", "Area", "Volume", "Weight"]
-    
-    let conversionOptionLength = ["Meter", "Kilometer", "Centimeter", "Millimeter", "Micrometer", "Nanometer", "Mile", "Yard", "Foot", "Inch", "Light Year"]
-    
+    let conversionOptions = ["Celsius", "Kelvin", "Fahrenheit", "Volume", "Weight"]
     
     var body: some View {
         NavigationView {
@@ -26,9 +23,12 @@ struct ContentView: View {
                 Section(header: Text("Choose a conversion option")) {
                     
                     Picker("Conversion Options", selection: $conversionChoice) {
-                        ForEach(0..<conversionOptions.count) {
-                            Text("\(self.conversionOptions[$0])")
+                        ForEach(0..<conversionOptions.count) { choice in
+                            Text("\(self.conversionOptions[choice])")
                         }
+                    }
+                    .onChange(of: conversionChoice) {_ in
+                        print(conversionChoice)
                     }
                     .pickerStyle(SegmentedPickerStyle())
                 }
@@ -36,23 +36,17 @@ struct ContentView: View {
                 Section(header: Text("Input your conversion number and type")) {
                     TextField("Input - Conversion", text: $inputConversionNumber)
                         .keyboardType(.decimalPad)
-                    Picker("Sub Conversion Options", selection: $subConversionChoice) {
-                        ForEach(0..<conversionOptionLength.count) {
-                            Text("\(self.conversionOptionLength[$0])")
-                        }
-                    }
-                    .pickerStyle(WheelPickerStyle())
                 }
                 
                 Section(header: Text("Conversion Results")) {
-                    ForEach(0..<conversionOptionLength.count) {
-                        Text("\(self.conversionOptionLength[$0]): \(conversionResult)")
-                    }
+                 
+                        Text("\(conversionResult)")
+                 
                 }
                 
                 
             }
-            .navigationTitle("Conversion Calculator")
+            .navigationTitle("Temp Converter")
         }
         
     }
